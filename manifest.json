@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail Reply Assistant",
+  "version": "1.0.0",
+  "description": "AI-powered Gmail reply generator that matches your company's tone of voice",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://api.yourmvp.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.ts"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["src/content.tsx"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Gmail Reply Assistant",
+    "default_icon": {
+      "16": "icon-16.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}
