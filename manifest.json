@@ -4,10 +4,7 @@
   "version": "1.0.0",
   "description": "AI-powered Gmail reply generator that matches your company's tone of voice",
   "permissions": ["activeTab", "storage", "scripting"],
-  "host_permissions": [
-    "https://mail.google.com/*",
-    "https://api.yourmvp.com/*"
-  ],
+  "host_permissions": ["https://mail.google.com/*"],
   "background": {
     "service_worker": "src/background.ts"
   },

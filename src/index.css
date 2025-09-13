@@ -1,4 +1,4 @@
-/* Global styles for Chrome extension */
+/* Global styles for Chrome extension  */
 :root {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
@@ -23,19 +23,19 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+/* body {
   margin: 0;
   display: flex;
-  justify-content: center; /* center content horizontally */
-  align-items: flex-start; /* keep content top aligned */
-  width: 360px; /* fixed width to prevent clipping */
-  min-height: auto; /* remove 100vh */
+  justify-content: center;
+  align-items: flex-start;
+  width: 360px;
+  min-height: auto;
   padding: 16px;
-  border-radius: 12px; /* rounded popup */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* soft shadow */
-  background: #ffffff; /* clean white background */
-  overflow-x: hidden; /* avoid right-side cutoff */
-}
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  overflow-x: hidden;
+} */
 
 h1 {
   font-size: 3.2em;
