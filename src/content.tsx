@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import "./index.css";
+// import "./index.css";
 import ContentApp from "./ContentApp";
 
 // Create a container for our React app

@@ -1,97 +1,39 @@
-// Background service worker for Gmail Reply Assistant
-console.log("Gmail Reply Assistant: Background script loaded");
-
-// Handle extension installation
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Gmail Reply Assistant: Extension installed");
 });
 
 // Handle messages from content script and popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("Background received message:", message);
+  console.log("Background: Received message:", message);
 
   switch (message.type) {
-    case "GENERATE_REPLY":
-      handleGenerateReply(message.data, sendResponse);
-      return true; // Keep message channel open for async response
+    case "EMAIL_EXTRACTED": {
+      const emailData = message.payload;
 
-    case "GET_SETTINGS":
-      handleGetSettings(sendResponse);
-      return true;
+      console.log("Background: Extracted email data:", emailData);
 
-    case "SAVE_SETTINGS":
-      handleSaveSettings(message.data, sendResponse);
+      fetch("http://localhost:3002/api/generate-reply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Background: Reply from backend:", data);
+          sendResponse({ success: true, data });
+        })
+        .catch((err) => {
+          console.log(err);
+          sendResponse({ success: false, error: err.message });
+        });
+
       return true;
+    }
+
+    default:
+      console.log("Background: Unknown message type", message.type);
+      break;
   }
 });
-
-// Handle reply generation
-async function handleGenerateReply(
-  data: any,
-  sendResponse: (response: any) => void
-) {
-  try {
-    const { incomingText, companyId } = data;
-
-    // TODO: In real implementation, this would call your backend API
-    // For now, we'll simulate with a simple response
-    const mockReply = `Thank you for your email. I'll review this and get back to you shortly.\n\nBest regards,\n[Your Name]`;
-
-    sendResponse({
-      success: true,
-      replyText: mockReply,
-      sources: ["Company tone guide", "Previous email examples"],
-    });
-  } catch (error) {
-    console.error("Error generating reply:", error);
-    sendResponse({
-      success: false,
-      error: "Failed to generate reply",
-    });
-  }
-}
-
-// Handle getting settings from storage
-async function handleGetSettings(sendResponse: (response: any) => void) {
-  try {
-    const settings = await chrome.storage.local.get([
-      "companyId",
-      "apiKey",
-      "tone",
-    ]);
-    sendResponse({
-      success: true,
-      settings: {
-        companyId: settings.companyId || "",
-        apiKey: settings.apiKey || "",
-        tone: settings.tone || "professional",
-      },
-    });
-  } catch (error) {
-    console.error("Error getting settings:", error);
-    sendResponse({
-      success: false,
-      error: "Failed to get settings",
-    });
-  }
-}
-
-// Handle saving settings to storage
-async function handleSaveSettings(
-  data: any,
-  sendResponse: (response: any) => void
-) {
-  try {
-    await chrome.storage.local.set(data);
-    sendResponse({
-      success: true,
-      message: "Settings saved successfully",
-    });
-  } catch (error) {
-    console.error("Error saving settings:", error);
-    sendResponse({
-      success: false,
-      error: "Failed to save settings",
-    });
-  }
-}
