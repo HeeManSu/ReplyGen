@@ -113,7 +113,7 @@ const ContentApp: React.FC = () => {
         Gmail AI Assistant
       </h3>
       <p style={{ fontSize: "14px", marginBottom: "16px", color: "#555" }}>
-        AI-powered replies in your company’s tone
+        AI-powered replies in your company's tone
       </p>
       <button
         onClick={handleClick}

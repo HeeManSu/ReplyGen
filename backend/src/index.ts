@@ -29,17 +29,12 @@ app.get("/health", (req, res) => {
 });
 
 app.post("/api/ingest", async (req, res) => {
-  console.log("Ingesting backend data...");
   try {
-    console.log("Request body:", req.body);
     const { companyName, emails } = req.body;
-    console.log("Ingesting data for company:", companyName);
-    console.log("Emails:", emails);
 
     const rows = [];
     for (const email of emails) {
       const emb = await generateEmbedding(email);
-      console.log("Embedding:", emb);
       rows.push({
         company_name: companyName,
         text_snippet: email,
