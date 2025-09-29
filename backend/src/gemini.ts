@@ -18,10 +18,7 @@ export const generateEmbedding = async (text: string): Promise<number[]> => {
       maxRetries: 0,
     });
 
-    console.log("Generating embedding...");
-    console.log("Text:", text);
     const result = await embeddings.embedQuery(text);
-    console.log("Embedding generated successfully, length:", result.length);
     return result;
   } catch (error: any) {
     console.error("Error generating embedding:", error);
